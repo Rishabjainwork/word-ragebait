@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Don't Click Wrong 😊</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="header">
+  <div>
+    <div id="game-title">DON'T CLICK <span>WRONG</span></div>
+    <div id="tagline">A puzzle for people who like pain</div>
+  </div>
+</div>
+
+<div id="stats">
+  
+  <div class="stat-box"><div class="label">Score</div><div class="value" id="score">0</div></div>
+  <div class="stat-box"><div class="label">Lives</div><div class="value" id="lives">❤️❤️❤️</div></div>
+  <div class="stat-box"><div class="label">Level</div><div class="value" id="level">1</div></div>
+  <div class="stat-box"><div class="label">Time</div><div class="value" id="timer">0s</div></div>
+</div>
+
+<div id="instruction-bar">
+  <div id="instruction">Click: <span class="target-word" id="target-label">—</span></div>
+</div>
+
+<div id="arena-wrap">
+  <div id="arena">
+    <div id="level-badge">LVL <span id="lvl-inner">1</span></div>
+    <div id="combo"></div>
+
+    <div id="level-banner">
+      <div id="banner-name"></div>
+      <div id="banner-desc"></div>
+    </div>
+
+    <div class="screen active" id="start-screen">
+      <h2 style="color:var(--green)">READY?</h2>
+      <p>Click the button with the correct label.<br>12 levels. Each one worse than the last.</p>
+      <button class="screen-btn success" onclick="startGame()">START GAME</button>
+    </div>
+
+    <div class="screen" id="gameover-screen">
+      <h2 style="color:var(--accent)">DEAD 💀</h2>
+      <div class="final-score" id="go-score"></div>
+      <p id="go-taunt"></p>
+      <button class="screen-btn danger" onclick="startGame()">TRY AGAIN</button>
+    </div>
+
+    <div class="screen" id="win-screen">
+      <h2 style="color:var(--yellow)">YOU WON?!</h2>
+      <div class="final-score" id="win-score"></div>
+      <p>All 12 levels. We genuinely did not expect that.<br>You are built different.</p>
+      <button class="screen-btn" onclick="startGame()">PLAY AGAIN (it gets worse)</button>
+    </div>
+  </div>
+</div>
+
+<div id="progress-wrap">
+  <div id="progress-bar-bg"><div id="progress-bar"></div></div>
+</div>
+
+<div id="footer-hint">Goal: 36 points — 12 levels</div>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
