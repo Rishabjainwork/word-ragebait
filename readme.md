@@ -1,47 +1,182 @@
-# 💀 Don't Click Wrong
+# DON'T CLICK WRONG
 
-> **"A puzzle for people who like pain."**
+![DON'T CLICK WRONG gameplay screenshot](screenshot.png)
 
-![Gameplay Screenshot](screenshot.png)
+A chaotic dark-arcade browser game where the only rule is simple:
 
-*Replace `screenshot.png` with an actual screenshot of your game in action!*
+**Click the correct button. Do not click wrong.**
 
-## 🎮 About the Game
+The game starts easy, then quickly turns into moving buttons, fake labels, blinking targets, shrinking buttons, combo rewards, screen shake, particles, panic mode, and a final boss that absolutely does not want you to win.
 
-**Don't Click Wrong** is a fast-paced, reflex-testing web game designed to mess with your head. The premise is painfully simple: click the button with the correct label. The execution, however, is a descent into madness. Over the course of 12 grueling levels, the game will do everything in its power to make you misclick, from swapping labels and shrinking buttons to outright lying to you.
+## Game Link
 
-Goal: Score **36 points** to beat all 12 levels. You only get 3 lives. Good luck.
+Project / GitHub link:
 
-## ✨ Features
+https://github.com/Rishabjainwork/rishabjainwork.github.io
 
-- **12 Stages of Chaos:** Progress through dynamically shifting levels including *Speed Demon*, *Blink*, *Fake News*, and a merciless *Final Boss*.
-- **Rage-Inducing Mechanics:** Buttons move, labels swap, targets run away, and the game actively taunts you when you fail.
-- **Combo System:** String together correct clicks to earn massive rewards:
-  - **5x Combo:** Main Character Energy (Particle bursts).
-  - **8x Combo:** Slow-Motion mode.
-  - **10x Combo:** Total Freeze Frame.
-- **Dynamic "Juice":** Screen shakes, customized particle bursts, button pops, and intense UI feedback make every click feel impactful.
-- **Responsive Design:** Playable and optimized for both desktop and mobile browsers.
+If this repository is deployed with GitHub Pages, the game can be played from:
 
-## 🕹️ How to Play
+https://Rishabjainwork.github.io
 
-1. Read the instruction at the top of the screen (e.g., `Click: "Yes this one"`).
-2. Find the button that matches the exact text.
-3. Click it before the mechanics completely disorient you.
-4. **Do not click the wrong button.** (The game will mock you).
+## Preview
 
-## 🛠️ Tech Stack
+**DON'T CLICK WRONG** is built to feel chaotic, funny, and streamer-friendly:
 
-This project is built purely with vanilla web technologies—no frameworks required.
+- dark arcade interface
+- neon cyberpunk feedback
+- ragebait taunts
+- fast levels
+- satisfying sound and visual effects
+- lightweight vanilla web implementation
 
-- **HTML5:** Semantic structure and game arena.
-- **CSS3:** Custom variables, grid/flexbox layouts, and heavy use of keyframe animations for visual "juice".
-- **JavaScript (ES6):** Game logic, DOM manipulation, timers, audio pooling, and dynamic event handling.
+## How To Play
 
-## 🚀 Run Locally
+1. Read the instruction at the top of the screen.
+2. Find the button with the exact matching label.
+3. Click it.
+4. Avoid every wrong button.
+5. Reach 36 points to beat all 12 levels.
 
-Want to experience the pain offline? It's easy:
+You start with 3 lives. At level 12, the final boss gives you 1 life. Good luck.
 
-1. Clone this repository:
-   ```bash
-   git clone [https://github.com/Rishabjainwork/rishabjainwork.github.io.git](https://github.com/Rishabjainwork/rishabjainwork.github.io.git)
+## Features
+
+- 12 escalating levels
+- Moving buttons
+- Correct target movement
+- Blinking buttons
+- Shrinking buttons
+- Fake labels
+- Instruction flicker
+- Combo system
+- Combo rewards
+- Final boss panic mode
+- Random chaos events
+- Screen shake
+- Particle explosions
+- Button pop, bounce, glow, and flash effects
+- Dynamic background music tension
+- Sound effects with preloaded audio pools
+- Taunts on wrong clicks
+- Best score saved with `localStorage`
+- Mobile vibration feedback
+- Responsive desktop and mobile layout
+
+## Combo Rewards
+
+| Combo | Reward |
+| --- | --- |
+| x5 | Bonus visual burst |
+| x8 | Temporary slow motion |
+| x10 | Brief button freeze |
+
+## Controls
+
+| Action | Control |
+| --- | --- |
+| Click button | Mouse click / tap |
+| Start or restart | `Enter` or `Space` |
+
+## Tech Stack
+
+- **HTML5** for structure
+- **CSS3** for layout, animations, arcade styling, particles, shake, and responsive design
+- **Vanilla JavaScript** for game logic, timers, levels, audio, effects, and local storage
+
+No frameworks. No build tools. No dependencies.
+
+## Run Locally
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Rishabjainwork/rishabjainwork.github.io.git
+```
+
+Open the project folder:
+
+```bash
+cd rishabjainwork.github.io
+```
+
+Then open `index.html` in your browser.
+
+You can also use a local server if you prefer:
+
+```bash
+python3 -m http.server 8000
+```
+
+Then visit:
+
+```text
+http://localhost:8000
+```
+
+## Project Structure
+
+```text
+.
+├── index.html
+├── script.js
+├── style.css
+├── readme.md
+└── sound/
+    ├── correct.mp3
+    ├── combo.mp3
+    ├── levelup.mp3
+    ├── gameover.mp3
+    ├── wrong.mp3
+    └── music.mp3
+```
+
+## Customization
+
+Game tuning is mostly in `script.js`:
+
+- `GOAL` controls the score needed to win.
+- `MAX_LEVEL` controls the number of levels.
+- `BUTTON_W` and `BUTTON_H` control button size.
+- `taunts` controls wrong-click messages.
+- `deathTaunts` controls game-over messages.
+- `labels` controls button text.
+- `LEVEL_DEFS` controls level names, descriptions, and banner colors.
+
+Visual styling is in `style.css`:
+
+- colors
+- layout
+- responsive rules
+- particles
+- button feedback
+- screen shake
+- final boss effects
+
+Audio files are in `sound/`. Replace the `.mp3` files with the same filenames to reskin the game sounds.
+
+## Browser Notes
+
+The game uses:
+
+- `Audio`
+- `localStorage`
+- `navigator.vibrate()`
+- CSS animations
+
+Some browsers block audio until the first user interaction. Pressing the start button unlocks game audio.
+
+## Development Check
+
+To quickly check JavaScript syntax:
+
+```bash
+node --check script.js
+```
+
+## License
+
+Use, remix, and modify freely unless you add your own license terms.
+
+## Author
+
+Made by [Rishab Jain](https://github.com/Rishabjainwork).
