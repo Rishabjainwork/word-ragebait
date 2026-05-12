@@ -75,10 +75,38 @@ const sounds = {
 };
 
 sounds.music.loop = true;
-sounds.music.volume = 0.35;
+sounds.music.volume = 0.8;
+
+const soundPools = {};
+const soundPoolIndex = {};
+
+Object.keys(sounds).forEach(name => {
+  sounds[name].preload = 'auto';
+  sounds[name].load();
+
+  if (name === 'music') return;
+
+  soundPools[name] = Array.from({ length: name === 'correct' ? 6 : 3 }, () => {
+    const audio = new Audio(sounds[name].src);
+    audio.preload = 'auto';
+    audio.load();
+    return audio;
+  });
+  soundPoolIndex[name] = 0;
+});
 
 function playSound(name, volume = 1) {
   if (!sounds[name]) return;
+
+  if (name !== 'music' && soundPools[name]) {
+    const pool = soundPools[name];
+    const audio = pool[soundPoolIndex[name] % pool.length];
+    soundPoolIndex[name]++;
+    audio.currentTime = 0;
+    audio.volume = volume;
+    audio.play().catch(() => {});
+    return;
+  }
 
   sounds[name].pause();
   sounds[name].currentTime = 0;
@@ -157,7 +185,7 @@ function vibrate(pattern) {
 
 function updateMusicTension() {
   const rate = Math.min(1.26, 1 + (level - 1) * 0.022);
-  sounds.music.volume = level >= 10 ? 0.43 : level >= 7 ? 0.39 : 0.35;
+  sounds.music.volume = level >= 10 ? 0.95 : level >= 7 ? 0.88 : 0.8;
   clearInterval(musicRampTimer);
   musicRampTimer = setInterval(() => {
     const diff = rate - sounds.music.playbackRate;
@@ -701,7 +729,7 @@ function startGame() {
   musicRampTimer = null;
   sounds.music.playbackRate = 0.96;
   sounds.music.currentTime = 0;
-  playSound('music', 0.35);
+  playSound('music', 0.8);
   updateMusicTension();
   startTimer();
   clearTimers();
@@ -713,7 +741,7 @@ function startGame() {
   showScreen(null);
   showLevelBanner(1);
   createButtons();
-  startMoving();
+  startMoving();  
 }
 
 loadBestScore();
