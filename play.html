@@ -4,6 +4,7 @@
   
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
 <title>Don't Click Wrong</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./style.css">
@@ -41,7 +42,7 @@
 
     <div class="screen active" id="start-screen">
       <h2 style="color:var(--green)">READY?</h2>
-      <p>Click the button with the correct label.<br>12 levels. Each one worse than the last.</p>
+      <p>Click the button with the correct label.<br>12 levels. Each one worse than the last.<br><span style="color:var(--muted);font-size:10px">ESC to quit mid-game</span></p>
       <div class="screen-actions">
         <button type="button" class="screen-btn success" onclick="startGame()">START GAME</button>
         <button type="button" class="screen-btn ghost" onclick="openLeaderboard()">LEADERBOARD</button>
@@ -53,7 +54,17 @@
       <div class="final-score" id="go-score"></div>
       <p id="go-taunt"></p>
       <div class="lb-end-block">
-        <label class="lb-name-label" for="lb-name-gameover">Name (12 chars max)</label>
+        <label class="lb-name-label">Choose Avatar & Name</label>
+        
+        <div class="avatar-selector">
+          <button type="button" class="avatar-btn selected" onclick="selectAvatar(this, '💀')">💀</button>
+          <button type="button" class="avatar-btn" onclick="selectAvatar(this, '🤡')">🤡</button>
+          <button type="button" class="avatar-btn" onclick="selectAvatar(this, '👽')">👽</button>
+          <button type="button" class="avatar-btn" onclick="selectAvatar(this, '😈')">😈</button>
+          <button type="button" class="avatar-btn" onclick="selectAvatar(this, '🤓')">🤓</button>
+          <button type="button" class="avatar-btn" onclick="selectAvatar(this, '🤖')">🤖</button>
+        </div>
+
         <input type="text" id="lb-name-gameover" class="lb-name-input" maxlength="12" placeholder="anon" autocomplete="nickname">
         <button type="button" class="screen-btn" id="lb-submit-gameover" onclick="submitLeaderboardRun(false)">SUBMIT SCORE</button>
       </div>
