@@ -23,7 +23,7 @@ const deathTaunts = [
   "Maybe try a different hobby.",
   "Error 404: Skill not found.",
   "Even the buttons feel bad for you.",
-  "You died at level " + "?. Incredible.",
+  "You died at level ?. Incredible.",
   "Your mouse called. It quit.",
 ];
 
@@ -172,19 +172,40 @@ function renderLeaderboardRows(rows) {
   }
   rows.forEach((row, i) => {
     const tr = document.createElement('tr');
+    
+    // Top 3 Highlighting
+    if (i === 0) tr.classList.add('lb-rank-1');
+    else if (i === 1) tr.classList.add('lb-rank-2');
+    else if (i === 2) tr.classList.add('lb-rank-3');
+
     const rank = document.createElement('td');
-    rank.textContent = String(i + 1);
+    rank.textContent = i === 0 ? '👑 1' : String(i + 1);
+    
+    // Engaging dynamic titles based on performance
+    let runTitle = "Victim";
+    if (row.won) runTitle = "God Gamer";
+    else if (row.level_reached === 12) runTitle = "Choker";
+    else if (row.score === 0) runTitle = "First Click Death";
+    else if (row.time_seconds < 15 && row.score > 10) runTitle = "Speed Demon";
+
     const nameTd = document.createElement('td');
     nameTd.className = 'lb-cell-name';
-    nameTd.textContent = row.player_name || 'anon';
+    // Combine Avatar + Name + Title
+    nameTd.innerHTML = `<span class="lb-avatar">${row.avatar || '💀'}</span>${row.player_name || 'anon'}
+                        <span class="lb-title">${runTitle}</span>`;
+                        
     const scoreTd = document.createElement('td');
     scoreTd.textContent = String(row.score);
+    
     const lvlTd = document.createElement('td');
     lvlTd.textContent = String(row.level_reached);
+    
     const timeTd = document.createElement('td');
     timeTd.textContent = String(row.time_seconds) + 's';
+    
     const winTd = document.createElement('td');
     winTd.textContent = row.won ? 'yes' : '—';
+    
     tr.appendChild(rank);
     tr.appendChild(nameTd);
     tr.appendChild(scoreTd);
@@ -207,7 +228,7 @@ async function fetchLeaderboard() {
   status.textContent = 'Loading…';
   const { data, error } = await leaderboardClient
     .from('ragebait_scores')
-    .select('player_name, score, level_reached, time_seconds, won, created_at')
+    .select('player_name, avatar, score, level_reached, time_seconds, won, created_at')
     .order('score', { ascending: false })
     .order('time_seconds', { ascending: true })
     .order('created_at', { ascending: false })
@@ -273,6 +294,7 @@ async function submitLeaderboardRun(won) {
 
   const { error } = await leaderboardClient.from('ragebait_scores').insert({
     player_name: name,
+    avatar:currentAvatar,
     score: runScore,
     level_reached: levelReached,
     time_seconds: timeSeconds,
@@ -546,7 +568,6 @@ function showScreen(id) {
 }
 
 function updateUI() {
-  saveBestScore();
   $('score').textContent = score;
   $('lives').textContent = livesIcons[Math.max(0, Math.min(lives, 3))] || '';
   $('level').textContent = level;
@@ -558,7 +579,7 @@ function updateUI() {
     pct > 66 ? 'var(--yellow)' :
     pct > 33 ? 'var(--accent2)' : 'var(--green)';
   $('footer-hint').textContent =
-    `LEVEL ${level}/12 — ${GOAL - score} points to win — BEST ${bestScore}`;
+    `LEVEL ${level}/12 — ${Math.max(0, GOAL - score)} points to win — BEST ${bestScore}`;
 }
 
 function getArena() {
@@ -938,14 +959,16 @@ $('arena').addEventListener('pointermove', event => {
   if (distance > 105) return;
 
   const arenaRect = $('arena').getBoundingClientRect();
+  const btnW = runawayBtn.offsetWidth || BUTTON_W;
+  const btnH = runawayBtn.offsetHeight || BUTTON_H;
   const push = 38;
   const nextX = Math.min(
     Math.max(12, parseFloat(runawayBtn.style.left) + (dx / Math.max(distance, 1)) * push),
-    arenaRect.width - (runawayBtn.offsetWidth || BUTTON_W) - 12
+    arenaRect.width - btnW - 12
   );
   const nextY = Math.min(
     Math.max(38, parseFloat(runawayBtn.style.top) + (dy / Math.max(distance, 1)) * push),
-    arenaRect.height - (runawayBtn.offsetHeight || BUTTON_H) - 26
+    arenaRect.height - btnH - 26
   );
 
   runawayBtn.style.left = nextX + 'px';
@@ -970,6 +993,24 @@ document.addEventListener('keydown', event => {
   if ((event.key === 'Enter' || event.key === ' ') && !gameActive) {
     event.preventDefault();
     startGame();
+  }
+  // Escape mid-game: give up and go to game over
+  if (event.key === 'Escape' && gameActive) {
+    event.preventDefault();
+    playSound('gameover');
+    sounds.music.pause();
+    clearInterval(musicRampTimer);
+    musicRampTimer = null;
+    gameActive = false;
+    applyFinalBossMode();
+    clearTimers();
+    clearInterval(timerInterval);
+    saveBestScore();
+    $('go-score').textContent =
+      `SCORE: ${score} | LEVEL: ${level} | ACCURACY: ${accuracyText()}`;
+    $('go-taunt').textContent = 'Rage quit. Respect.';
+    showScreen('gameover-screen');
+    updateEndScreenLeaderboardControls();
   }
 });
 
@@ -1070,11 +1111,13 @@ document.addEventListener('keydown', event => {
   }
 
   // ── Poll for active screen and refresh links ─────────────
-  // Runs every 600ms. Costs nothing. Works regardless of how
-  // showScreen() is scoped inside script.js.
+  // Runs every 600ms only when end screens are visible.
   var lastSeen = '';
+  var sharePoller = null;
 
-  setInterval(function () {
+  function startSharePoller() {
+    if (sharePoller) return;
+    sharePoller = setInterval(function () {
     var winEl = document.getElementById('win-screen');
     var goEl  = document.getElementById('gameover-screen');
 
@@ -1091,7 +1134,38 @@ document.addEventListener('keydown', event => {
       setLinks('go', scoreEl ? scoreEl.textContent : '', false);
     } else if (!winActive && !goActive) {
       lastSeen = '';
+      // stop polling when back to active game
+      if (sharePoller) { clearInterval(sharePoller); sharePoller = null; }
     }
   }, 600);
+  }
+
+  // Start polling immediately in case page loads on an end screen
+  startSharePoller();
+
+  // Hook into startGame to stop polling when game begins
+  var _origStartGame = window.startGame;
+  window.startGame = function () {
+    if (sharePoller) { clearInterval(sharePoller); sharePoller = null; }
+    lastSeen = '';
+    if (_origStartGame) _origStartGame.apply(this, arguments);
+    // restart poller after game ends (showScreen triggers it via the interval)
+    setTimeout(startSharePoller, 500);
+  };
 
 })();
+
+
+let currentAvatar = '💀'; // Default avatar
+
+// Function to handle avatar clicking
+window.selectAvatar = function(btn, emoji) {
+  // Deselect all within the same container
+  const siblings = btn.parentElement.querySelectorAll('.avatar-btn');
+  siblings.forEach(b => b.classList.remove('selected'));
+  
+  // Select clicked
+  btn.classList.add('selected');
+  currentAvatar = emoji;
+};
+
