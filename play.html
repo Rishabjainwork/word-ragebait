@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(s){s.dataset.zone='11008083',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Don't Click Wrong</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div id="header">
+  <div>
+    <div id="game-title">DON'T CLICK <span>WRONG</span></div>
+    <div id="tagline">A puzzle for people who like pain</div>
+  </div>
+</div>
+
+<div id="stats">
+  
+  <div class="stat-box"><div class="label">Score</div><div class="value" id="score">0</div></div>
+  <div class="stat-box"><div class="label">Lives</div><div class="value" id="lives">❤️❤️❤️</div></div>
+  <div class="stat-box"><div class="label">Level</div><div class="value" id="level">1</div></div>
+  <div class="stat-box"><div class="label">Time</div><div class="value" id="timer">0s</div></div>
+</div>
+
+<div id="instruction-bar">
+  <div id="instruction">Click: <span class="target-word" id="target-label">—</span></div>
+</div>
+
+<div id="arena-wrap">
+  <div id="arena">
+    <div id="level-badge">LVL <span id="lvl-inner">1</span></div>
+    <div id="combo"></div>
+
+    <div id="level-banner">
+      <div id="banner-name"></div>
+      <div id="banner-desc"></div>
+    </div>
+
+    <div class="screen active" id="start-screen">
+      <h2 style="color:var(--green)">READY?</h2>
+      <p>Click the button with the correct label.<br>12 levels. Each one worse than the last.</p>
+      <div class="screen-actions">
+        <button type="button" class="screen-btn success" onclick="startGame()">START GAME</button>
+        <button type="button" class="screen-btn ghost" onclick="openLeaderboard()">LEADERBOARD</button>
+      </div>
+    </div>
+
+    <div class="screen" id="gameover-screen">
+      <h2 style="color:var(--accent)">DEAD 💀</h2>
+      <div class="final-score" id="go-score"></div>
+      <p id="go-taunt"></p>
+      <div class="lb-end-block">
+        <label class="lb-name-label" for="lb-name-gameover">Name (12 chars max)</label>
+        <input type="text" id="lb-name-gameover" class="lb-name-input" maxlength="12" placeholder="anon" autocomplete="nickname">
+        <button type="button" class="screen-btn" id="lb-submit-gameover" onclick="submitLeaderboardRun(false)">SUBMIT SCORE</button>
+      </div>
+      <button type="button" class="screen-btn danger" onclick="startGame()">TRY AGAIN</button>
+      <!-- PASTE THIS INSIDE YOUR #gameover-screen div, after the leaderboard buttons -->
+
+      <div class="dcw-share-box" id="dcw-share-go">
+        <div class="dcw-share-label">Make your friends suffer too</div>
+        <div class="dcw-share-row">
+          <a class="dcw-share-btn tw" id="dcw-tw-go" href="#" target="_blank" rel="noopener">𝕏 Tweet</a>
+          <a class="dcw-share-btn wa" id="dcw-wa-go" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a class="dcw-share-btn rd" id="dcw-rd-go" href="#" target="_blank" rel="noopener">👾 Reddit</a>
+          <button class="dcw-share-btn cp" onclick="dcwCopy('dcw-copied-go')">📋 Copy Link</button>
+        </div>
+        <div class="dcw-copied" id="dcw-copied-go">✓ LINK COPIED</div>
+      </div>
+    </div>
+
+    <div class="screen" id="win-screen">
+      <h2 style="color:var(--yellow)">YOU WON?!</h2>
+      <div class="final-score" id="win-score"></div>
+      <p>All 12 levels. We genuinely did not expect that.<br>You are built different.</p>
+      <div class="lb-end-block">
+        <label class="lb-name-label" for="lb-name-win">Name (12 chars max)</label>
+        <input type="text" id="lb-name-win" class="lb-name-input" maxlength="12" placeholder="anon" autocomplete="nickname">
+        <button type="button" class="screen-btn" id="lb-submit-win" onclick="submitLeaderboardRun(true)">SUBMIT SCORE</button>
+      </div>
+      <button type="button" class="screen-btn" onclick="startGame()">PLAY AGAIN (it gets worse)</button>
+      <!-- PASTE THIS INSIDE YOUR #win-screen div, after the leaderboard buttons -->
+
+      <div class="dcw-share-box" id="dcw-share-win">
+        <div class="dcw-share-label">Make your friends suffer too</div>
+        <div class="dcw-share-row">
+          <a class="dcw-share-btn tw" id="dcw-tw-win" href="#" target="_blank" rel="noopener">𝕏 Tweet</a>
+          <a class="dcw-share-btn wa" id="dcw-wa-win" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a class="dcw-share-btn rd" id="dcw-rd-win" href="#" target="_blank" rel="noopener">👾 Reddit</a>
+          <button class="dcw-share-btn cp" onclick="dcwCopy('dcw-copied-win')">📋 Copy Link</button>
+        </div>
+        <div class="dcw-copied" id="dcw-copied-win">✓ LINK COPIED</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="progress-wrap">
+  <div id="progress-bar-bg"><div id="progress-bar"></div></div>
+</div>
+
+<div id="footer-hint">Goal: 36 points — 12 levels</div>
+
+<div id="toast"></div>
+
+<div id="lb-overlay" class="lb-overlay" aria-hidden="true">
+  <div class="lb-panel" role="dialog" aria-labelledby="lb-title">
+    <div class="lb-panel-head">
+      <h3 id="lb-title">LEADERBOARD</h3>
+      <button type="button" class="lb-close" onclick="closeLeaderboard()" aria-label="Close">×</button>
+    </div>
+    <p class="lb-status" id="lb-status"></p>
+    <div class="lb-table-wrap">
+      <table class="lb-table" aria-describedby="lb-status">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Lvl</th>
+            <th>Time</th>
+            <th>Win</th>
+          </tr>
+        </thead>
+        <tbody id="lb-tbody"></tbody>
+      </table>
+    </div>
+    <button type="button" class="screen-btn ghost lb-refresh" onclick="refreshLeaderboard()">REFRESH</button>
+  </div>
+</div>
+
+<script src="./config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./script.js"></script>
+</body>
+</html>
