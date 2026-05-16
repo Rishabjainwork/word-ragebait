@@ -105,7 +105,163 @@
       color: var(--white);
     }
     .nav-logo span { color: var(--red); }
-    .nav-play-btn {
+
+    /* ── NAV LINKS ── */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .nav-link {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      padding: 0.4rem 0.8rem;
+      transition: color 0.15s;
+      cursor: crosshair;
+    }
+    .nav-link:hover { color: var(--white); }
+
+    /* Top Players dropdown trigger */
+    .nav-top-players {
+      position: relative;
+    }
+    .nav-top-btn {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      background: none;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      cursor: crosshair;
+      transition: color 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .nav-top-btn:hover { color: var(--yellow); }
+    .nav-top-btn .trophy { font-style: normal; }
+    .nav-top-btn .caret {
+      font-size: 0.5rem;
+      transition: transform 0.2s;
+    }
+    .nav-top-players.open .nav-top-btn { color: var(--yellow); }
+    .nav-top-players.open .caret { transform: rotate(180deg); }
+
+    /* Dropdown panel */
+    .nav-top-dropdown {
+      position: absolute;
+      top: calc(100% + 0.6rem);
+      right: 0;
+      width: 280px;
+      background: rgba(10,10,10,0.98);
+      border: 1px solid rgba(255,215,0,0.15);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,215,0,0.05);
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 200;
+    }
+    .nav-top-players.open .nav-top-dropdown {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+    .nav-top-dropdown-header {
+      padding: 0.7rem 1rem 0.5rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      color: var(--yellow);
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,215,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-top-live-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: livePulse 1.8s ease-in-out infinite;
+    }
+    .nav-top-row {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.12s;
+      text-decoration: none;
+      cursor: default;
+    }
+    .nav-top-row:last-child { border-bottom: none; }
+    .nav-top-row:hover { background: rgba(255,215,0,0.04); }
+    .nav-top-medal { font-size: 1rem; flex-shrink: 0; width: 1.4rem; text-align: center; }
+    .nav-top-avatar { font-size: 1.1rem; flex-shrink: 0; }
+    .nav-top-info { flex: 1; min-width: 0; }
+    .nav-top-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-top-sub {
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+      margin-top: 1px;
+    }
+    .nav-top-score {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      color: var(--red);
+      flex-shrink: 0;
+    }
+    .nav-top-row.rank-1 .nav-top-name { color: var(--yellow); }
+    .nav-top-skeleton {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .nav-top-skeleton-bar {
+      height: 10px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #1a1a1a 30%, #252525 50%, #1a1a1a 70%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      margin-bottom: 5px;
+    }
+    @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+    .nav-top-footer {
+      padding: 0.6rem 1rem;
+      border-top: 1px solid rgba(255,215,0,0.08);
+      text-align: center;
+    }
+    .nav-top-footer a {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-top-footer a:hover { color: var(--yellow); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .nav-top-dropdown { width: 240px; right: -1rem; }
+    }
       font-family: 'Share Tech Mono', monospace;
       font-size: 0.75rem;
       letter-spacing: 0.15em;
@@ -938,6 +1094,33 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo">DON'T CLICK <span>WRONG</span></div>
+
+  <div class="nav-links">
+    <a class="nav-link" href="#features">Features</a>
+    <a class="nav-link" href="#how-to-play">How To Play</a>
+    <a class="nav-link" href="#top3">Leaderboard</a>
+
+    <!-- TOP PLAYERS DROPDOWN -->
+    <div class="nav-top-players" id="nav-top-players">
+      <button class="nav-top-btn" onclick="toggleTopPlayers()" aria-expanded="false" aria-controls="nav-top-dropdown">
+        <span class="trophy">🏆</span> Top Players <span class="caret">▼</span>
+      </button>
+      <div class="nav-top-dropdown" id="nav-top-dropdown" role="menu">
+        <div class="nav-top-dropdown-header">
+          <span>Hall of Pain</span>
+          <span class="nav-top-live-dot"></span>
+        </div>
+        <div id="nav-top-list">
+          <!-- skeleton -->
+          <div class="nav-top-skeleton"><div class="nav-top-skeleton-bar" style="width:60%"></div><div class="nav-top-skeleton-bar" style="width:40%"></div></div>
+          <div class="nav-top-skeleton"><div class="nav-top-skeleton-bar" style="width:55%"></div><div class="nav-top-skeleton-bar" style="width:35%"></div></div>
+          <div class="nav-top-skeleton"><div class="nav-top-skeleton-bar" style="width:50%"></div><div class="nav-top-skeleton-bar" style="width:30%"></div></div>
+        </div>
+        <div class="nav-top-footer"><a href="#top3" onclick="closeTopPlayers()">View full leaderboard ↓</a></div>
+      </div>
+    </div>
+  </div>
+
   <a class="nav-play-btn" href="play.html">PLAY NOW</a>
 </nav>
 
@@ -1398,6 +1581,112 @@
     setInterval(loadTop3, 60000);
     setInterval(loadPlayerCount, 60000);
   })();
+</script>
+
+<!-- Top Players Nav Dropdown -->
+<script>
+(function() {
+  const MEDALS = ['🥇','🥈','🥉'];
+
+  function toggleTopPlayers() {
+    const wrap = document.getElementById('nav-top-players');
+    const btn  = wrap.querySelector('.nav-top-btn');
+    const isOpen = wrap.classList.contains('open');
+    if (isOpen) {
+      wrap.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    } else {
+      wrap.classList.add('open');
+      btn.setAttribute('aria-expanded','true');
+      loadNavTop3();
+    }
+  }
+
+  function closeTopPlayers() {
+    const wrap = document.getElementById('nav-top-players');
+    wrap.classList.remove('open');
+    wrap.querySelector('.nav-top-btn').setAttribute('aria-expanded','false');
+  }
+
+  // Close on outside click
+  document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('nav-top-players');
+    if (wrap && !wrap.contains(e.target)) closeTopPlayers();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeTopPlayers();
+  });
+
+  let navTop3Loaded = false;
+
+  async function loadNavTop3() {
+    if (navTop3Loaded) return;
+    const list = document.getElementById('nav-top-list');
+
+    const SUPABASE_URL = window.RAGEBAIT_SUPABASE_URL;
+    const SUPABASE_KEY = window.RAGEBAIT_SUPABASE_ANON_KEY;
+    if (!SUPABASE_URL || !SUPABASE_KEY ||
+        SUPABASE_URL.includes('YOUR_PROJECT') || SUPABASE_KEY === 'YOUR_ANON_KEY') {
+      list.innerHTML = '<div style="padding:0.8rem 1rem;font-size:0.65rem;color:#555;letter-spacing:0.1em">Leaderboard not configured</div>';
+      return;
+    }
+
+    let db;
+    try {
+      const ns = window.supabase;
+      db = (ns.createClient || ns.default.createClient)(SUPABASE_URL, SUPABASE_KEY);
+    } catch(e) {
+      list.innerHTML = '<div style="padding:0.8rem 1rem;font-size:0.65rem;color:#555">Could not connect</div>';
+      return;
+    }
+
+    try {
+      const { data, error } = await db
+        .from('ragebait_scores')
+        .select('player_name, score, level_reached, time_seconds, won, avatar')
+        .order('score', { ascending: false })
+        .order('time_seconds', { ascending: true })
+        .limit(3);
+
+      if (error) throw error;
+
+      if (!data || !data.length) {
+        list.innerHTML = '<div style="padding:0.8rem 1rem;font-size:0.65rem;color:#555;letter-spacing:0.1em">No scores yet — be first!</div>';
+        return;
+      }
+
+      list.innerHTML = '';
+      data.forEach((row, i) => {
+        const div = document.createElement('div');
+        div.className = 'nav-top-row rank-' + (i + 1);
+        const title = row.won ? 'God Gamer' : row.level_reached >= 10 ? 'So Close' : 'Victim';
+        div.innerHTML = `
+          <span class="nav-top-medal">${MEDALS[i] || String(i+1)}</span>
+          <span class="nav-top-avatar">${row.avatar || '💀'}</span>
+          <div class="nav-top-info">
+            <div class="nav-top-name">${esc(row.player_name || 'anon')}</div>
+            <div class="nav-top-sub">LVL ${row.level_reached} · ${row.time_seconds}s · ${title}</div>
+          </div>
+          <div class="nav-top-score">${row.score}</div>`;
+        list.appendChild(div);
+      });
+
+      navTop3Loaded = true;
+    } catch(e) {
+      list.innerHTML = '<div style="padding:0.8rem 1rem;font-size:0.65rem;color:#555">Failed to load</div>';
+    }
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  window.toggleTopPlayers = toggleTopPlayers;
+  window.closeTopPlayers  = closeTopPlayers;
+})();
 </script>
 
 </body>
