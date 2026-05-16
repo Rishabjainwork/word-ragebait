@@ -157,6 +157,82 @@ function sanitizePlayerName(raw) {
   return s.slice(0, 12);
 }
 
+// ── AVATAR & PROFILE ─────────────────────────────────────────
+const AVATARS = [
+  '😤','💀','🔥','🤬','😡','👾','🤡','💩','🧠','⚡',
+  '🐉','👻','💣','🎯','🦾','😈','🤯','🥵','🫠','🤖',
+  '🐺','🦊','🐸','🦅','🐍','🏆','💎','⚔️','🛡️','🎮',
+];
+
+let currentAvatar = localStorage.getItem('ragebait-avatar') || '💀';
+let currentProfileName = localStorage.getItem('ragebait-name') || '';
+let currentLbTab = 'global';
+
+function getPlayerAvatar() { return currentAvatar; }
+
+function saveProfileName() {
+  const input = $('lb-name-global');
+  if (!input) return;
+  const name = sanitizePlayerName(input.value);
+  if (name && name !== 'anon') {
+    localStorage.setItem('ragebait-name', name);
+    currentProfileName = name;
+    // Sync to both end-screen inputs
+    ['lb-name-win', 'lb-name-gameover'].forEach(id => {
+      const el = $(id); if (el) el.value = name;
+    });
+    toast('Name saved! 🔥', 'var(--green)');
+  }
+  updateProfileStats();
+}
+
+function updateProfileStats() {
+  const el = $('lb-profile-stats');
+  if (!el) return;
+  const name = currentProfileName || localStorage.getItem('ragebait-name') || '';
+  if (!name) { el.textContent = '— enter name to track your rank —'; return; }
+  el.textContent = `Best: ${bestScore} pts · playing as ${name}`;
+}
+
+function openAvatarPicker() {
+  const picker = $('lb-avatar-picker');
+  if (!picker) return;
+  const isOpen = picker.style.display === 'block';
+  picker.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) buildAvatarGrid();
+}
+
+function buildAvatarGrid() {
+  const grid = $('lb-avatar-grid');
+  if (!grid || grid.children.length) return; // already built
+  AVATARS.forEach(emoji => {
+    const btn = document.createElement('button');
+    btn.className = 'lb-avatar-option' + (emoji === currentAvatar ? ' selected' : '');
+    btn.textContent = emoji;
+    btn.title = emoji;
+    btn.addEventListener('click', () => {
+      currentAvatar = emoji;
+      localStorage.setItem('ragebait-avatar', emoji);
+      const display = $('lb-avatar-display');
+      if (display) display.textContent = emoji;
+      grid.querySelectorAll('.lb-avatar-option').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      $('lb-avatar-picker').style.display = 'none';
+      toast('Avatar saved!', 'var(--green)');
+    });
+    grid.appendChild(btn);
+  });
+}
+
+// ── LEADERBOARD TABS ─────────────────────────────────────────
+function switchLbTab(tab) {
+  currentLbTab = tab;
+  document.querySelectorAll('.lb-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === tab);
+  });
+  fetchLeaderboard();
+}
+
 function renderLeaderboardRows(rows) {
   const tbody = $('lb-tbody');
   tbody.innerHTML = '';
@@ -170,42 +246,54 @@ function renderLeaderboardRows(rows) {
     tbody.appendChild(tr);
     return;
   }
+
+  // Update thead based on tab
+  const thead = $('lb-thead');
+  if (thead) {
+    if (currentLbTab === 'speed') {
+      thead.innerHTML = '<tr><th>#</th><th>Player</th><th>Score</th><th>Lvl</th><th>⚡ Time</th><th>Win</th></tr>';
+    } else {
+      thead.innerHTML = '<tr><th>#</th><th>Player</th><th>Score</th><th>Lvl</th><th>Time</th><th>Win</th></tr>';
+    }
+  }
+
   rows.forEach((row, i) => {
     const tr = document.createElement('tr');
-    
-    // Top 3 Highlighting
     if (i === 0) tr.classList.add('lb-rank-1');
     else if (i === 1) tr.classList.add('lb-rank-2');
     else if (i === 2) tr.classList.add('lb-rank-3');
 
+    // Highlight if it's the current player's name
+    const myName = currentProfileName || localStorage.getItem('ragebait-name') || '';
+    if (myName && row.player_name === myName) tr.classList.add('lb-my-row');
+
     const rank = document.createElement('td');
     rank.textContent = i === 0 ? '👑 1' : String(i + 1);
-    
-    // Engaging dynamic titles based on performance
-    let runTitle = "Victim";
-    if (row.won) runTitle = "God Gamer";
-    else if (row.level_reached === 12) runTitle = "Choker";
-    else if (row.score === 0) runTitle = "First Click Death";
-    else if (row.time_seconds < 15 && row.score > 10) runTitle = "Speed Demon";
+
+    let runTitle = 'Victim';
+    if (row.won) runTitle = 'God Gamer';
+    else if (row.level_reached === 12) runTitle = 'Choker';
+    else if (row.score === 0) runTitle = 'First Click Death';
+    else if (row.time_seconds < 15 && row.score > 10) runTitle = 'Speed Demon';
+    else if (row.score >= 30) runTitle = 'So Close';
 
     const nameTd = document.createElement('td');
     nameTd.className = 'lb-cell-name';
-    // Combine Avatar + Name + Title
-    nameTd.innerHTML = `<span class="lb-avatar">${row.avatar || '💀'}</span>${row.player_name || 'anon'}
-                        <span class="lb-title">${runTitle}</span>`;
-                        
+    nameTd.innerHTML = `<span class="lb-avatar">${row.avatar || '💀'}</span>${escLb(row.player_name || 'anon')}<span class="lb-title">${runTitle}</span>`;
+
     const scoreTd = document.createElement('td');
     scoreTd.textContent = String(row.score);
-    
+
     const lvlTd = document.createElement('td');
     lvlTd.textContent = String(row.level_reached);
-    
+
     const timeTd = document.createElement('td');
     timeTd.textContent = String(row.time_seconds) + 's';
-    
+    if (currentLbTab === 'speed' && i === 0) timeTd.style.color = 'var(--yellow)';
+
     const winTd = document.createElement('td');
-    winTd.textContent = row.won ? 'yes' : '—';
-    
+    winTd.textContent = row.won ? '✅' : '—';
+
     tr.appendChild(rank);
     tr.appendChild(nameTd);
     tr.appendChild(scoreTd);
@@ -216,29 +304,60 @@ function renderLeaderboardRows(rows) {
   });
 }
 
+function escLb(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
 async function fetchLeaderboard() {
   const status = $('lb-status');
   const tbody = $('lb-tbody');
   if (!leaderboardClient) {
-    status.textContent =
-      'Leaderboard unavailable. Copy config.example.js to config.js and add your Supabase URL + anon key.';
+    status.textContent = 'Leaderboard unavailable. Add Supabase credentials in config.js.';
     tbody.innerHTML = '';
     return;
   }
   status.textContent = 'Loading…';
-  const { data, error } = await leaderboardClient
+
+  let query = leaderboardClient
     .from('ragebait_scores')
-    .select('player_name, avatar, score, level_reached, time_seconds, won, created_at')
-    .order('score', { ascending: false })
-    .order('time_seconds', { ascending: true })
-    .order('created_at', { ascending: false })
-    .limit(20);
+    .select('player_name, avatar, score, level_reached, time_seconds, won, created_at');
+
+  if (currentLbTab === 'winners') {
+    query = query.eq('won', true)
+      .order('score', { ascending: false })
+      .order('time_seconds', { ascending: true });
+    } else if (currentLbTab === 'speed') {
+    query = query.eq('won', true)
+      .order('time_seconds', { ascending: true })
+      .order('score', { ascending: false });
+  } else {
+    query = query
+      .order('score', { ascending: false })
+      .order('time_seconds', { ascending: true })
+      .order('created_at', { ascending: false });
+  }
+
+  query = query.limit(20);
+  const { data, error } = await query;
+
   if (error) {
     status.textContent = 'Could not load leaderboard: ' + error.message;
     tbody.innerHTML = '';
     return;
   }
-  status.textContent = 'Top 20. Higher score wins; ties break on faster time.';
+
+  const tabLabels = {
+    global: 'Top 20 — higher score wins; ties break on fastest time.',
+    winners: 'Winners only — sorted by score.',
+    speed:   'Winners only — sorted by fastest completion time. ⚡',
+  };
+  status.textContent = tabLabels[currentLbTab] || '';
+
+  // Update live timestamp
+  const updEl = $('lb-updated');
+  if (updEl) updEl.textContent = 'Updated ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+
   renderLeaderboardRows(data || []);
 }
 
@@ -247,6 +366,20 @@ function openLeaderboard() {
   overlay.classList.add('open');
   overlay.setAttribute('aria-hidden', 'false');
   document.body.classList.add('lb-modal-open');
+
+  // Populate profile card
+  const avatarDisplay = $('lb-avatar-display');
+  if (avatarDisplay) avatarDisplay.textContent = currentAvatar;
+  const nameInput = $('lb-name-global');
+  if (nameInput && !nameInput.value) {
+    nameInput.value = currentProfileName || localStorage.getItem('ragebait-name') || '';
+  }
+  // Sync avatar to end-screen inputs too
+  ['lb-name-win','lb-name-gameover'].forEach(id => {
+    const el = $(id);
+    if (el && !el.value) el.value = currentProfileName || localStorage.getItem('ragebait-name') || '';
+  });
+  updateProfileStats();
   fetchLeaderboard();
 }
 
@@ -285,6 +418,13 @@ async function submitLeaderboardRun(won) {
   const levelReached = Math.min(MAX_LEVEL, Math.max(1, Math.floor(Number(level)) || 1));
   let runScore = Math.min(GOAL, Math.max(0, Math.floor(Number(score)) || 0));
   if (won && runScore < GOAL) runScore = GOAL;
+  const avatar = getPlayerAvatar();
+
+  // Persist name for next time
+  if (name && name !== 'anon') {
+    localStorage.setItem('ragebait-name', name);
+    currentProfileName = name;
+  }
 
   leaderboardSubmitInFlight = true;
   const btn = $(btnId);
@@ -294,7 +434,7 @@ async function submitLeaderboardRun(won) {
 
   const { error } = await leaderboardClient.from('ragebait_scores').insert({
     player_name: name,
-    avatar:currentAvatar,
+    avatar: avatar,
     score: runScore,
     level_reached: levelReached,
     time_seconds: timeSeconds,
@@ -310,7 +450,7 @@ async function submitLeaderboardRun(won) {
     updateEndScreenLeaderboardControls();
     return;
   }
-  toast('Score submitted.', 'var(--green)');
+  toast('Score submitted! 🔥', 'var(--green)');
   if ($('lb-overlay')?.classList.contains('open')) fetchLeaderboard();
 }
 
@@ -1154,18 +1294,4 @@ document.addEventListener('keydown', event => {
   };
 
 })();
-
-
-let currentAvatar = '💀'; // Default avatar
-
-// Function to handle avatar clicking
-window.selectAvatar = function(btn, emoji) {
-  // Deselect all within the same container
-  const siblings = btn.parentElement.querySelectorAll('.avatar-btn');
-  siblings.forEach(b => b.classList.remove('selected'));
-  
-  // Select clicked
-  btn.classList.add('selected');
-  currentAvatar = emoji;
-};
 
