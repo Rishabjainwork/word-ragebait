@@ -726,6 +726,209 @@
       .features-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; align-items: flex-start; }
     }
+    /* ── LIVE DOT (hero) ── */
+    .live-dot-hero {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      margin-right: 5px;
+      vertical-align: middle;
+      animation: livePulse 1.8s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255,42,42,0.6); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 5px rgba(255,42,42,0); }
+    }
+    .stat-loading { color: var(--dim); letter-spacing: 0.1em; }
+
+    /* ── TOP 3 SECTION ── */
+    .top3-section {
+      padding: 6rem 1.5rem;
+      background: linear-gradient(to bottom, transparent, rgba(255,42,42,0.02), transparent);
+    }
+    .top3-inner { max-width: 860px; margin: 0 auto; }
+
+    .top3-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.18fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 3rem;
+      align-items: end;
+    }
+
+    .top3-card {
+      background: var(--card);
+      padding: 2rem 1.5rem 1.8rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .top3-card:hover { background: #181818; }
+    .top3-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+    .top3-card.rank-1::before { background: var(--yellow); box-shadow: 0 0 12px rgba(255,215,0,0.4); }
+    .top3-card.rank-2::before { background: #c0c0c0; }
+    .top3-card.rank-3::before { background: #cd7f32; }
+
+    /* first place card slightly taller */
+    .top3-card.rank-1 { padding-top: 2.6rem; }
+
+    .top3-rank-badge {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.2rem;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .rank-1 .top3-rank-badge { color: var(--yellow); text-shadow: 0 0 20px rgba(255,215,0,0.4); }
+    .rank-2 .top3-rank-badge { color: #c0c0c0; }
+    .rank-3 .top3-rank-badge { color: #cd7f32; }
+
+    .top3-avatar {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    }
+
+    .top3-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top3-score {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+    .top3-score-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--dim);
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+    }
+
+    .top3-meta {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--border);
+      padding-top: 0.9rem;
+      margin-top: 0.4rem;
+    }
+    .top3-meta-item {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--dim);
+      text-transform: uppercase;
+    }
+    .top3-meta-item span {
+      color: var(--white);
+      display: block;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+
+    .top3-win-badge {
+      display: inline-block;
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.3);
+      color: var(--yellow);
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      padding: 2px 7px;
+      text-transform: uppercase;
+      margin-top: 0.6rem;
+    }
+
+    /* Skeleton loading */
+    .top3-card.skeleton {
+      min-height: 200px;
+    }
+    .top3-card.skeleton::after {
+      content: '';
+      position: absolute;
+      inset: 1.5rem;
+      background: linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.03) 50%, transparent 70%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite;
+      border-radius: 2px;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .top3-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    .top3-challenge-btn {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      border: 1px solid rgba(255,42,42,0.35);
+      padding: 0.55rem 1.2rem;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .top3-challenge-btn:hover {
+      background: var(--red);
+      color: var(--bg);
+      box-shadow: var(--glow-red);
+    }
+    .top3-updated {
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      color: #444;
+      text-transform: uppercase;
+    }
+
+    /* top3 empty state */
+    .top3-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem;
+      color: var(--dim);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      background: var(--card);
+    }
+
+    @media (max-width: 600px) {
+      .top3-grid {
+        grid-template-columns: 1fr;
+      }
+      .top3-card.rank-1 { order: -1; }
+    }
   </style>
 </head>
 <body>
@@ -759,16 +962,20 @@
 
   <div class="hero-stats">
     <div class="stat">
-      <div class="stat-num" id="stat-plays">12</div>
+      <div class="stat-num">12</div>
       <div class="stat-label">Levels</div>
     </div>
     <div class="stat">
       <div class="stat-num">3</div>
       <div class="stat-label">Lives Only</div>
     </div>
-    <div class="stat">
-      <div class="stat-num">∞</div>
-      <div class="stat-label">Rage</div>
+    <div class="stat live-stat">
+      <div class="stat-num" id="stat-players">
+        <span class="stat-loading">···</span>
+      </div>
+      <div class="stat-label">
+        <span class="live-dot-hero"></span>Players
+      </div>
     </div>
     <div class="stat">
       <div class="stat-num">0%</div>
@@ -779,6 +986,26 @@
   <div class="scroll-cue">
     <span>Scroll</span>
     <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- TOP 3 LEADERBOARD -->
+<section class="top3-section reveal" id="top3">
+  <div class="top3-inner">
+    <div class="section-header">
+      <p class="section-tag">// hall of pain</p>
+      <h2 class="section-title">TOP <span>PLAYERS</span></h2>
+    </div>
+    <div class="top3-grid" id="top3-grid">
+      <!-- Filled by JS -->
+      <div class="top3-card skeleton" id="top3-sk-1"></div>
+      <div class="top3-card skeleton" id="top3-sk-0"></div>
+      <div class="top3-card skeleton" id="top3-sk-2"></div>
+    </div>
+    <div class="top3-footer">
+      <a href="play.html" class="top3-challenge-btn">⚔ CHALLENGE THE LEADERBOARD</a>
+      <div class="top3-updated" id="top3-updated"></div>
+    </div>
   </div>
 </section>
 
@@ -853,6 +1080,7 @@
     <div class="level-list" id="level-list"></div>
   </div>
 </section>
+
 
 <!-- HOW TO PLAY -->
 <section class="howto reveal" id="how-to-play">
@@ -1030,5 +1258,147 @@
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
+<!-- Supabase for live stats -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./config.js"></script>
+<script>
+  // ── SUPABASE LIVE STATS ──────────────────────────────────────
+  (function () {
+    const SUPABASE_URL = window.RAGEBAIT_SUPABASE_URL;
+    const SUPABASE_KEY = window.RAGEBAIT_SUPABASE_ANON_KEY;
+    if (!SUPABASE_URL || !SUPABASE_KEY ||
+        SUPABASE_URL.includes('YOUR_PROJECT') || SUPABASE_KEY === 'YOUR_ANON_KEY') {
+      // No config — show fallback
+      document.getElementById('stat-players').textContent = '?';
+      renderTop3Fallback();
+      return;
+    }
+
+    let db;
+    try {
+      const ns = window.supabase;
+      db = (ns.createClient || ns.default.createClient)(SUPABASE_URL, SUPABASE_KEY);
+    } catch (e) {
+      document.getElementById('stat-players').textContent = '?';
+      renderTop3Fallback();
+      return;
+    }
+
+    // ── PLAYER COUNT (unique names who ever submitted) ──────────
+    async function loadPlayerCount() {
+      const el = document.getElementById('stat-players');
+      try {
+        // Count total rows = total submitted runs
+        const { count, error } = await db
+          .from('ragebait_scores')
+          .select('*', { count: 'exact', head: true });
+        if (error) throw error;
+        animateCount(el, count || 0);
+      } catch (e) {
+        el.textContent = '?';
+      }
+    }
+
+    function animateCount(el, target) {
+      const duration = 1400;
+      const start = performance.now();
+      const from = 0;
+      function step(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const val = Math.floor(from + (target - from) * eased);
+        el.textContent = val.toLocaleString();
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target.toLocaleString();
+      }
+      requestAnimationFrame(step);
+    }
+
+    // ── TOP 3 ───────────────────────────────────────────────────
+    async function loadTop3() {
+      try {
+        const { data, error } = await db
+          .from('ragebait_scores')
+          .select('player_name, score, level_reached, time_seconds, won, avatar')
+          .order('score', { ascending: false })
+          .order('time_seconds', { ascending: true })
+          .limit(3);
+        if (error) throw error;
+        renderTop3(data || []);
+        const now = new Date();
+        document.getElementById('top3-updated').textContent =
+          'Updated ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      } catch (e) {
+        renderTop3Fallback();
+      }
+    }
+
+    function renderTop3(rows) {
+      const grid = document.getElementById('top3-grid');
+      grid.innerHTML = '';
+
+      if (!rows.length) {
+        grid.innerHTML = '<div class="top3-empty">No scores yet — be the first to suffer.</div>';
+        return;
+      }
+
+      // Podium order: 2nd, 1st, 3rd
+      const podiumOrder = [1, 0, 2];
+      podiumOrder.forEach(idx => {
+        const row = rows[idx];
+        const rank = idx + 1;
+        const card = document.createElement('div');
+        card.className = `top3-card rank-${rank}`;
+
+        if (!row) {
+          // Empty slot
+          card.innerHTML = `
+            <div class="top3-rank-badge">#${rank}</div>
+            <div class="top3-name" style="color:var(--dim)">— empty —</div>
+            <div class="top3-score-label">No entry yet</div>`;
+          grid.appendChild(card);
+          return;
+        }
+
+        const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉';
+        const avatar = row.avatar || '😤';
+        const winBadge = row.won
+          ? '<div class="top3-win-badge">✓ WINNER</div>' : '';
+
+        card.innerHTML = `
+          <div class="top3-rank-badge">${medal}</div>
+          <span class="top3-avatar">${avatar}</span>
+          <div class="top3-name">${escHtml(row.player_name || 'anon')}</div>
+          <div class="top3-score">${row.score}</div>
+          <div class="top3-score-label">Points</div>
+          <div class="top3-meta">
+            <div class="top3-meta-item"><span>LVL ${row.level_reached}</span>Level</div>
+            <div class="top3-meta-item"><span>${row.time_seconds}s</span>Time</div>
+          </div>
+          ${winBadge}`;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderTop3Fallback() {
+      const grid = document.getElementById('top3-grid');
+      grid.innerHTML = '<div class="top3-empty">Leaderboard unavailable — add Supabase config to see live scores.</div>';
+    }
+
+    function escHtml(s) {
+      return s.replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    // Load both on page open
+    loadPlayerCount();
+    loadTop3();
+
+    // Auto-refresh top3 every 60s
+    setInterval(loadTop3, 60000);
+    setInterval(loadPlayerCount, 60000);
+  })();
+</script>
+
 </body>
 </html>
