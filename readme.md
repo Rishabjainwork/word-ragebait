@@ -1,91 +1,187 @@
-# DON'T CLICK WRONG
+# 🎮 DON'T CLICK WRONG
 
-![DON'T CLICK WRONG gameplay screenshot](screenshot.png)
+> A chaotic browser game where one wrong click can ruin everything.
 
-A chaotic dark-arcade browser game where the only rule is simple:
+<p align="center">
+  <img src="screenshot.png" alt="DON'T CLICK WRONG gameplay" width="900">
+</p>
 
-**Click the correct button. Do not click wrong.**
+<p align="center">
+  <a href="https://word-ragebait.vercel.app/">
+    <img src="https://img.shields.io/badge/🎮%20PLAY%20NOW-000000?style=for-the-badge" />
+  </a>
+  <a href="https://github.com/Rishabjainwork/word-ragebait">
+    <img src="https://img.shields.io/badge/💻%20SOURCE%20CODE-181717?style=for-the-badge&logo=github" />
+  </a>
+</p>
 
-The game starts easy, then quickly turns into moving buttons, fake labels, blinking targets, shrinking buttons, combo rewards, screen shake, particles, panic mode, and a final boss that absolutely does not want you to win.
+---
 
-## Game Link
+## 🧠 About
 
-Project / GitHub link:
+**DON'T CLICK WRONG** is a fast-paced browser game built around one simple rule:
 
-https://github.com/Rishabjainwork/word-ragebait
+> **Click the correct button. Do not click wrong.**
 
-the game can be played from:
+What starts as a simple reaction game quickly becomes chaotic.
 
-https://word-ragebait.vercel.app/
+Buttons move.  
+Labels lie.  
+Targets shrink.  
+Instructions flicker.  
+The screen shakes.
 
-## Preview
+And eventually, you face the **Final Boss**.
 
-**DON'T CLICK WRONG** is built to feel chaotic, funny, and streamer-friendly:
+The game combines progressively difficult levels, visual effects, sound feedback, combo mechanics and deliberately frustrating "ragebait" moments into a lightweight browser experience.
 
-- dark arcade interface
-- neon cyberpunk feedback
-- ragebait taunts
-- fast levels
-- satisfying sound and visual effects
-- lightweight vanilla web implementation
+---
 
-## How To Play
+## 🎮 Play
 
-1. Read the instruction at the top of the screen.
-2. Find the button with the exact matching label.
-3. Click it.
-4. Avoid every wrong button.
-5. Reach 36 points to beat all 12 levels.
+### 👉 [Play DON'T CLICK WRONG](https://word-ragebait.vercel.app/)
 
-You start with 3 lives. At level 12, the final boss gives you 1 life. Good luck.
+No installation required.
 
-## Features
+Try to survive all **12 levels** and reach **36 points**.
 
-- 12 escalating levels
-- Moving buttons
-- Correct target movement
-- Blinking buttons
+---
+
+## ✨ Features
+
+### 🎯 Gameplay
+
+- 12 progressively harder levels
+- 36-point victory condition
+- 3 starting lives
+- Final boss with a single life
+- Moving targets
 - Shrinking buttons
-- Fake labels
-- Instruction flicker
-- Combo system
-- Combo rewards
-- Final boss panic mode
+- Fake button labels
+- Blinking targets
+- Flickering instructions
 - Random chaos events
+
+### ⚡ Visual & Audio Effects
+
 - Screen shake
 - Particle explosions
-- Button pop, bounce, glow, and flash effects
-- Dynamic background music tension
-- Sound effects with preloaded audio pools
-- Taunts on wrong clicks
-- Best score saved with `localStorage`
-- Mobile vibration feedback
-- Responsive desktop and mobile layout
+- Button bounce animations
+- Button glow effects
+- Flash effects
+- Pop animations
+- Dynamic background tension
+- Sound effects
+- Background music
+- Wrong-click taunts
+- Game-over messages
 
-## Combo Rewards
+### 🔥 Combo System
+
+Consecutive correct clicks unlock special rewards.
 
 | Combo | Reward |
-| --- | --- |
-| x5 | Bonus visual burst |
-| x8 | Temporary slow motion |
-| x10 | Brief button freeze |
+|:---:|---|
+| **x5** | Bonus visual burst |
+| **x8** | Temporary slow motion |
+| **x10** | Brief button freeze |
 
-## Controls
+### 📱 Browser Features
 
-| Action | Control |
-| --- | --- |
-| Click button | Mouse click / tap |
-| Start or restart | `Enter` or `Space` |
+- Responsive desktop and mobile layout
+- Mobile vibration feedback
+- Persistent best score
+- `localStorage` score saving
+- Preloaded audio pools
+- Browser-based audio handling
 
-## Tech Stack
+---
 
-- **HTML5** for structure
-- **CSS3** for layout, animations, arcade styling, particles, shake, and responsive design
-- **Vanilla JavaScript** for game logic, timers, levels, audio, effects, and local storage
+## 🛠️ Tech Stack
 
-No frameworks. No build tools. No dependencies.
+<p align="center">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+</p>
 
-## Run Locally
+| Technology | Purpose |
+|---|---|
+| **HTML5** | Structure and game interface |
+| **CSS3** | Layout, animations, effects and responsive design |
+| **Vanilla JavaScript** | Game logic, levels, timers and interactions |
+| **Audio API** | Music and sound effects |
+| **localStorage** | Persistent best score |
+| **Vibration API** | Mobile feedback |
+
+No frameworks.  
+No game engine.  
+No build system.  
+No external dependencies.
+
+---
+
+## 🧩 How It Works
+
+The core game loop is simple:
+
+```text
+Instruction
+     ↓
+Generate Targets
+     ↓
+Player Clicks
+     ↓
+Is It Correct?
+   ↙       ↘
+ YES       NO
+  ↓         ↓
+Score     Lose Life
+  ↓         ↓
+Combo     Taunt
+  ↓
+Increase Difficulty
+     ↓
+Next Level
+```
+
+Each level introduces additional difficulty and interaction mechanics, making it progressively harder to identify and click the correct target.
+
+---
+
+## 🏗️ Project Structure
+
+```text
+word-ragebait/
+│
+├── index.html
+├── play.html
+├── script.js
+├── style.css
+├── config.js
+│
+├── screenshot.png
+├── logo.png
+├── favicon.png
+│
+├── robots.txt
+├── sitemap.xml
+├── Ads.txt
+│
+├── sound/
+│   ├── correct.mp3
+│   ├── combo.mp3
+│   ├── levelup.mp3
+│   ├── gameover.mp3
+│   ├── wrong.mp3
+│   └── music.mp3
+│
+└── readme.md
+```
+
+---
+
+## 🚀 Run Locally
 
 Clone the repository:
 
@@ -93,15 +189,17 @@ Clone the repository:
 git clone https://github.com/Rishabjainwork/word-ragebait.git
 ```
 
-Open the project folder:
+Enter the project directory:
 
 ```bash
 cd word-ragebait
 ```
 
-Then open `index.html` in your browser.
+### Option 1 — Open directly
 
-You can also use a local server if you prefer:
+Open `index.html` in your browser.
+
+### Option 2 — Use a local server
 
 ```bash
 python3 -m http.server 8000
@@ -113,70 +211,119 @@ Then visit:
 http://localhost:8000
 ```
 
-## Project Structure
+---
+
+## 🎮 Controls
+
+| Action | Control |
+|---|---|
+| Click target | Mouse / Touch |
+| Start game | `Enter` / `Space` |
+| Restart game | `Enter` / `Space` |
+
+The game is designed to work on both desktop and mobile devices.
+
+---
+
+## ⚙️ Customization
+
+Most gameplay configuration is handled inside `script.js`.
+
+Important configuration values include:
 
 ```text
-.
-├── index.html
-├── script.js
-├── style.css
-├── readme.md
-└── sound/
-    ├── correct.mp3
-    ├── combo.mp3
-    ├── levelup.mp3
-    ├── gameover.mp3
-    ├── wrong.mp3
-    └── music.mp3
+GOAL
+MAX_LEVEL
+BUTTON_W
+BUTTON_H
+LEVEL_DEFS
+labels
+taunts
+deathTaunts
 ```
 
-## Customization
+You can modify:
 
-Game tuning is mostly in `script.js`:
+- Victory score
+- Number of levels
+- Button dimensions
+- Level difficulty
+- Button labels
+- Wrong-click messages
+- Game-over messages
 
-- `GOAL` controls the score needed to win.
-- `MAX_LEVEL` controls the number of levels.
-- `BUTTON_W` and `BUTTON_H` control button size.
-- `taunts` controls wrong-click messages.
-- `deathTaunts` controls game-over messages.
-- `labels` controls button text.
-- `LEVEL_DEFS` controls level names, descriptions, and banner colors.
+Visual styling and animations are handled inside `style.css`.
 
-Visual styling is in `style.css`:
+Audio assets are stored inside:
 
-- colors
-- layout
-- responsive rules
-- particles
-- button feedback
-- screen shake
-- final boss effects
+```text
+sound/
+```
 
-Audio files are in `sound/`. Replace the `.mp3` files with the same filenames to reskin the game sounds.
+You can replace the audio files while keeping their filenames.
 
-## Browser Notes
+---
 
-The game uses:
+## 🔊 Browser APIs
+
+The game makes use of browser capabilities including:
 
 - `Audio`
 - `localStorage`
 - `navigator.vibrate()`
 - CSS animations
 
-Some browsers block audio until the first user interaction. Pressing the start button unlocks game audio.
+Some browsers block audio until the user interacts with the page. Starting the game provides the required user interaction to enable audio.
 
-## Development Check
+---
 
-To quickly check JavaScript syntax:
+## 🧪 Development
+
+Check JavaScript syntax with:
 
 ```bash
 node --check script.js
 ```
 
-## License
+No package installation is required.
 
-Use, remix, and modify freely unless you add your own license terms.
+---
 
-## Author
+## 💡 What I Learned
 
-Made by [Rishab Jain](https://github.com/Rishabjainwork).
+Building this project provided hands-on experience with:
+
+- Game-state management
+- Timers and event handling
+- Progressive difficulty
+- DOM manipulation
+- Browser APIs
+- Animation systems
+- Audio feedback
+- Responsive web design
+- Persistent client-side state
+- Designing interactive user experiences
+
+The project intentionally uses vanilla web technologies to understand how much can be built directly in the browser without relying on frameworks or game engines.
+
+---
+
+## 📸 Preview
+
+<p align="center">
+  <img src="screenshot.png" alt="DON'T CLICK WRONG gameplay" width="900">
+</p>
+
+---
+
+## 👨‍💻 Author
+
+**Rishab Jain**
+
+<a href="https://github.com/Rishabjainwork">GitHub</a>
+
+---
+
+<p align="center">
+  <strong>Click carefully. 😈</strong>
+</p>
