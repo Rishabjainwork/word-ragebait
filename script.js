@@ -142,7 +142,7 @@ const LEVEL_DEFS = [
   { name: "FINAL BOSS",  desc: "One chance. One life. One click. Good luck.", color: "#ff00ff"       },
 ];
 
-let score = 0, lives = 3, level = 1, combo = 0, attempts = 0, bestScore = 0;
+let score = 0, lives = 100000, level = 1, combo = 0, attempts = 0, bestScore = 0;
 let timer = 0; let timerInterval = null;
 let targetIdx = 0, buttons = [], moveTimer = null, switchTimer = null;
 let blinkTimer = null, shrinkTimer = null, fakeTimer = null, chaosTimer = null;
