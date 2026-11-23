@@ -1008,7 +1008,7 @@ function handleClick(i, btn, event) {
 
 function startGame() {
   closeLeaderboard();
-  score = 0; lives = 3; level = 1; combo = 0; attempts = 0;
+  score = 0; lives = 10000; level = 1; combo = 0; attempts = 0;
   slowMotionUntil = 0;
   buttonsFrozenUntil = 0;
   comboSlowAwarded = false;
